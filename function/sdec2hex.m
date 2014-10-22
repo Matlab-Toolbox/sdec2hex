@@ -6,18 +6,25 @@ function value = sdec2hex(x, wordlength, mode)
     min_value = -2^(wordlength-1);
     hex_len   = ceil(wordlength/4);
 
-    if (x > max_value)
-      error([num2str(x) ' is above max value (', num2str(max_value),') for signed ', num2str(wordlength),' bit wordlength'])
-    end
-    if (x<min_value) 
-      error([num2str(x) ' is below min value (', num2str(min_value),') for signed ', num2str(wordlength),' bit wordlength'])
-    end
+    %% for value checks perfoming conversion on a cell-by-cell basis
+    [rows,cols] = size(x);
+    for i=1:rows 
+      for j=1:cols
+        cell_value = x(i,j);
+        if (cell_value > max_value)
+          error([num2str(cell_value) ' is above max value (', num2str(max_value),') for signed ', num2str(wordlength),' bit wordlength'])
+        end
+        if (cell_value<min_value) 
+          error([num2str(cell_value) ' is below min value (', num2str(min_value),') for signed ', num2str(wordlength),' bit wordlength'])
+        end
 
-    if x < 0
-      twos_comp = 2^wordlength + x;
-      value = dec2hex(twos_comp, hex_len);
-    else
-      value = dec2hex(x,         hex_len);
+        if cell_value < 0
+          twos_comp = 2^wordlength + cell_value;
+          value(i,j) = {dec2hex(twos_comp,  hex_len)};
+        else
+          value(i,j) = {dec2hex(cell_value, hex_len)};
+        end
+      end
     end
     
     
