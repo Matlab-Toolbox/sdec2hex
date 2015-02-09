@@ -7,10 +7,14 @@ SDEC2HEX Signed integer decimal to hexadecimal conversion
        x          : signed integer value
        wordlength : number of bits for converted hex format.
 
-Example:
+Example
+--
 
     sdec2hex(-1, 4) 
     > 'F'
+
+Installation
+--
 
 To get library clone from github:
 
