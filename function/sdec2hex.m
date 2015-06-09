@@ -1,6 +1,23 @@
 function value = sdec2hex(x, wordlength, mode)
-%% SDEC2HEX Signed integer decimal to hexadecimal conversion
-% Currently only Twos complement supported
+%% SDEC2HEX Signed integer decimal (base10) to hexadecimal (base16) conversion
+% Usage :
+%   value = sdec2hex(x, wordlength, [mode])
+%
+% Currently mode selection is not supported, hex output is twos complement.
+
+if nargin < 1
+  help sdec2hex
+  error('No arguments supplied')
+end
+
+if nargin < 2
+  % Calculate number of bits plus sign to represent input
+  wordlength = ceil(log2(abs(x)+1)) + 1 ;
+  if x <0 
+    warning(['wordlength not specified for negative integer (', num2str(x), '), generated pattern is sensitive to this, ', num2str(wordlength),' bits will be used.'])
+  end
+  
+end
 
   %% Input Validation (Integer Check)
   % double any allows input 2D arrays to be collapsed to a single boolean
